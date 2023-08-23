@@ -9,10 +9,11 @@ import (
 func StartApp() *gin.Engine {
 	router := gin.Default()
 
-	studentRouter := router.Group("/students")
+	router.GET("/students", handler.GetAllStudents)
+	studentRouter := router.Group("/student")
 	{
 		studentRouter.POST("/", handler.CreateStudent)
-		studentRouter.GET("/", handler.GetAllStudents)
+
 		studentRouter.PUT("/:id", handler.UpdateStudent)
 		studentRouter.DELETE("/:id", handler.DeleteStudent)
 	}

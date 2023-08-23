@@ -13,7 +13,7 @@ func CreateScore(ctx *gin.Context) {
 	db := database.GetDB()
 	contentType := helpers.GetContentType(ctx)
 
-	Score := models.Score{}
+	Score := models.Scores{}
 
 	if contentType == appJSON {
 		ctx.ShouldBindJSON(&Score)
@@ -39,7 +39,7 @@ func UpdateScore(ctx *gin.Context) {
 	db := database.GetDB()
 	contentType := helpers.GetContentType(ctx)
 
-	var updatedScore models.Score
+	var updatedScore models.Scores
 
 	if contentType == appJSON {
 		err := ctx.ShouldBindJSON(&updatedScore)
@@ -61,7 +61,7 @@ func UpdateScore(ctx *gin.Context) {
 		}
 	}
 
-	var existingScore models.Score
+	var existingScore models.Scores
 	scoreID := ctx.Param("id")
 
 	if err := db.Debug().Where("id = ?", scoreID).First(&existingScore).Error; err != nil {
@@ -91,7 +91,7 @@ func UpdateScore(ctx *gin.Context) {
 func GetAllScoreByStudent(ctx *gin.Context) {
 	db := database.GetDB()
 
-	var scores []models.Score
+	var scores []models.Scores
 	if err := db.Debug().Find(&scores).Error; err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Internal Server Error",
@@ -110,7 +110,7 @@ func DeleteScore(ctx *gin.Context) {
 	db := database.GetDB()
 
 	scoreID := ctx.Param("id")
-	var score models.Score
+	var score models.Scores
 
 	if err := db.Debug().Where("id = ?", scoreID).First(&score).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{

@@ -34,7 +34,7 @@ func StartDB() {
 		log.Fatal("error connecting to database: ", err)
 	}
 
-	db.Debug().AutoMigrate(models.Student{}, models.Score{})
+	db.Debug().AutoMigrate(models.Student{}, models.Scores{})
 
 }
 
