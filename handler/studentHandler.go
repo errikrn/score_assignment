@@ -21,34 +21,22 @@ func CreateStudent(ctx *gin.Context) {
 
 	if contentType == appJSON {
 		if err := ctx.ShouldBindJSON(&student); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error":   "Invalid input",
-				"message": err.Error(),
-			})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "message": err.Error()})
 			return
 		}
 	} else {
 		if err := ctx.ShouldBind(&student); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"error":   "Invalid input",
-				"message": err.Error(),
-			})
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "message": err.Error()})
 			return
 		}
 	}
 
 	if err := db.Debug().Create(&student).Error; err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error":   "Database error",
-			"message": err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Database error", "message": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"data":    student,
-	})
+	ctx.JSON(http.StatusOK, gin.H{"success": true, "data": student})
 }
 
 func GetAllStudents(ctx *gin.Context) {
@@ -56,27 +44,29 @@ func GetAllStudents(ctx *gin.Context) {
 
 	var students []models.Student
 	if err := db.Debug().Preload("Scores").Find(&students).Error; err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error":   "Database error",
-			"message": err.Error(),
-		})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Database error", "message": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"data":    students,
-	})
+	ctx.JSON(http.StatusOK, gin.H{"success": true, "data": students})
 }
 
 func UpdateStudent(ctx *gin.Context) {
 	db := database.GetDB()
+	contentType := helpers.GetContentType(ctx)
 	studentID := ctx.Param("id")
 	updatedStudent := models.Student{}
 
-	if err := ctx.ShouldBindJSON(&updatedStudent); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "message": err.Error()})
-		return
+	if contentType == appJSON {
+		if err := ctx.ShouldBindJSON(&updatedStudent); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "message": err.Error()})
+			return
+		}
+	} else {
+		if err := ctx.ShouldBind(&updatedStudent); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input", "message": err.Error()})
+			return
+		}
 	}
 
 	id, err := strconv.Atoi(studentID)
@@ -96,6 +86,8 @@ func UpdateStudent(ctx *gin.Context) {
 		return
 	}
 
+	existingStudent.Name = updatedStudent.Name
+	existingStudent.Age = updatedStudent.Age
 	existingStudent.Scores = updatedStudent.Scores
 
 	if err := db.Debug().Save(&existingStudent).Error; err != nil {
@@ -109,8 +101,8 @@ func UpdateStudent(ctx *gin.Context) {
 func DeleteStudent(ctx *gin.Context) {
 	db := database.GetDB()
 	studentID := ctx.Param("id")
+	student := models.Student{}
 
-	var student models.Student
 	if err := db.Debug().Preload("Scores").Where("id = ?", studentID).First(&student).Error; err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "Student not found"})
 		return
