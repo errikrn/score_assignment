@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\"name\":\"Fitri\",\"age\":20,\"scores\":[{\"assignment_title\":\"Assignment Project 1\",\"description\":\"Create simple API without middleware\",\"score\":95}]}",
+							"raw": "{\"name\":\"Fitri\",\"age\":20,\"scores\":[{\"assignment_title\":\"Assignment Project 1\",\"description\":\"Create simple API without middleware\",\"score\":95}]}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -73,7 +73,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/student/1",
+							"raw": "http://localhost:8080/student/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -81,7 +81,13 @@
 							"port": "8080",
 							"path": [
 								"student",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
 							]
 						}
 					},
@@ -93,7 +99,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/student/2",
+							"raw": "http://localhost:8080/student/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -101,7 +107,13 @@
 							"port": "8080",
 							"path": [
 								"student",
-								"2"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
 							]
 						}
 					},
@@ -118,58 +130,24 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "assignment_title",
-									"value": "Assignment Project 1",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Create simple API without middleware",
-									"type": "text"
-								},
-								{
-									"key": "StudentID",
-									"value": "2",
-									"type": "text"
-								},
-								{
-									"key": "Score",
-									"value": "80",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\"studentID\":2,\"assignment_title\":\"Assignment Project 1\",\"description\":\"Create simple API without middleware\",\"score\":95}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/scores/?assignmentTitle=Matematika&Description=Ulangan Harian&studentID=1&nilai=90",
+							"raw": "http://localhost:8080/score/",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"scores",
+								"score",
 								""
-							],
-							"query": [
-								{
-									"key": "assignmentTitle",
-									"value": "Matematika"
-								},
-								{
-									"key": "Description",
-									"value": "Ulangan Harian"
-								},
-								{
-									"key": "studentID",
-									"value": "1"
-								},
-								{
-									"key": "nilai",
-									"value": "90"
-								}
 							]
 						}
 					},
@@ -208,49 +186,72 @@
 					"response": []
 				},
 				{
-					"name": "Delete Score",
+					"name": "Update Score",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "assignment_title",
+									"value": "Final Project Edit",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Create simple API with",
+									"type": "text"
+								},
+								{
+									"key": "score",
+									"value": "90",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
-							"raw": "http://localhost:8080/scores/3",
+							"raw": "http://localhost:8080/score/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"scores",
-								"3"
+								"score",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update Score",
+					"name": "Delete Score",
 					"request": {
-						"method": "PUT",
+						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\"assignment_title\":\"Final Project\",\"description\":\"Create simple API with middleware\",\"score\":85}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:8080/scores/3",
+							"raw": "http://localhost:8080/score/:id",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"scores",
-								"3"
+								"score",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
 							]
 						}
 					},
