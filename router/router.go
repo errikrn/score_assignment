@@ -13,15 +13,13 @@ func StartApp() *gin.Engine {
 	studentRouter := router.Group("/student")
 	{
 		studentRouter.POST("/", handler.CreateStudent)
-
 		studentRouter.PUT("/:id", handler.UpdateStudent)
 		studentRouter.DELETE("/:id", handler.DeleteStudent)
 	}
 
-	scoreRouter := router.Group("/scores")
+	router.GET("/scores", handler.GetAllScores)
+	scoreRouter := router.Group("/score")
 	{
-		scoreRouter.GET("/", handler.GetAllScoreByStudent)
-
 		scoreRouter.POST("/", handler.CreateScore)
 		scoreRouter.PUT("/:id", handler.UpdateScore)
 		scoreRouter.DELETE("/:id", handler.DeleteScore)
